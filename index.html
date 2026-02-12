@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Miriel ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        * {
+            box-sizing: border-box; /* Asegura que los tamaños sean exactos */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Altura completa de la pantalla */
+            height: 100dvh; /* Altura dinámica para móviles modernos */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffe6e6 100%);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden; /* Prohíbe el scroll */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- TARJETA --- */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 77, 109, 0.2);
+            width: 90%; /* Ocupa el 90% del ancho del móvil */
+            max-width: 400px; /* Pero no se hace gigante en PC */
+            text-align: center;
+            position: relative;
+            z-index: 100;
+            border: 1px solid #fff;
+        }
+
+        /* --- TIPOGRAFÍA ADAPTABLE --- */
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            color: #d63384;
+            font-size: 3rem; /* Tamaño base */
+            margin: 5px 0 15px 0;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: #999;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .message {
+            color: #555;
+            font-size: 0.95rem; /* Texto legible en móvil */
+            line-height: 1.5;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+
+        .highlight {
+            color: #ff4d6d;
+            font-weight: 700;
+            display: block;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* --- BOTONES --- */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+            min-height: 60px; /* Espacio reservado */
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            transition: transform 0.2s;
+            outline: none;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #ff4d6d, #ff758f);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            z-index: 10;
+        }
+
+        .btn-no {
+            background-color: #f0f0f0;
+            color: #666;
+            z-index: 9;
+            /* Importante: transition para suavizar el movimiento */
+            transition: top 0.3s ease, left 0.3s ease; 
+        }
+
+        /* --- MEDIA QUERY: Ajustes específicos para pantallas pequeñas (Celulares) --- */
+        @media (max-width: 400px) {
+            h1 { font-size: 2.5rem; } /* Título más pequeño */
+            .card { padding: 20px 15px; }
+            button { padding: 10px 20px; font-size: 0.9rem; }
+            .emoji-big { font-size: 2.5rem; }
+        }
+
+        /* --- ANIMACIONES --- */
+        .hidden { display: none !important; }
+        
+        .emoji-big { 
+            font-size: 3rem; 
+            display: block; 
+            margin-bottom: 5px; 
+            animation: pulse 2s infinite; 
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .heart {
+            position: fixed;
+            top: -20px;
+            font-size: 24px;
+            color: #ff4d6d;
+            animation: fall linear forwards;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="question-screen">
+        <span class="emoji-big">🌹</span>
+        <div class="subtitle">Para mi querida</div>
+        <h1>Miriel</h1>
+        
+        <p class="message">
+            Desde que llegaste a mi vida, todo tiene más color. Eres mi compañera, mi cabezona, mi alegría y mi lugar favorito en el mundo. No hay nadie más con quien prefiera compartir cada momento...<br>
+            <span class="highlight">¿Quieres ser mi San Valentín?</span>
+        </p>
+        
+        <div class="btn-group">
+            <button class="btn-yes" id="btnYes">¡Sí, claro!</button>
+            <button class="btn-no" id="btnNo">No</button>
+        </div>
+    </div>
+
+    <div class="card hidden" id="celebration-screen">
+        <span class="emoji-big">💖</span>
+        <h1>¡Te amo, Miriel!</h1>
+        <p class="message">
+            Sabía que dirías que sí.<br>
+            Prometo hacer todo lo que me digas AJJAJA.<br><br>
+            <b>Eres lo mejor que me ha pasado.</b>
+        </p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnYes = document.getElementById('btnYes');
+            const btnNo = document.getElementById('btnNo');
+            const questionScreen = document.getElementById('question-screen');
+            const celebrationScreen = document.getElementById('celebration-screen');
+
+            // --- Acción del botón SÍ ---
+            btnYes.addEventListener('click', () => {
+                questionScreen.style.display = 'none';
+                celebrationScreen.classList.remove('hidden');
+                lanzarCorazones();
+            });
+
+            // --- Acción del botón NO ---
+            let isMoving = false; // Evita movimientos excesivos
+
+            const moverBoton = (e) => {
+                if (e.type === 'touchstart') e.preventDefault(); // Evita click en móvil
+                
+                if (isMoving) return;
+                isMoving = true;
+
+                // Obtenemos tamaños
+                const anchoVentana = window.innerWidth;
+                const altoVentana = window.innerHeight;
+                const btnW = btnNo.offsetWidth;
+                const btnH = btnNo.offsetHeight;
+
+                // Calculamos nueva posición segura (dejando margen de 20px)
+                const maxX = anchoVentana - btnW - 20;
+                const maxY = altoVentana - btnH - 20;
+                
+                const randomX = Math.max(20, Math.random() * maxX);
+                const randomY = Math.max(20, Math.random() * maxY);
+
+                // Aplicamos posición
+                btnNo.style.position = 'fixed'; // Cambia a fixed para moverse libremente
+                btnNo.style.left = randomX + 'px';
+                btnNo.style.top = randomY + 'px';
+
+                // Reseteamos bandera
+                setTimeout(() => { isMoving = false; }, 200);
+            };
+
+            // Escuchamos eventos de PC y Móvil
+            btnNo.addEventListener('mouseover', moverBoton);
+            btnNo.addEventListener('touchstart', moverBoton, { passive: false });
+            btnNo.addEventListener('click', moverBoton);
+        });
+
+        function lanzarCorazones() {
+            setInterval(() => {
+                const h = document.createElement('div');
+                h.classList.add('heart');
+                h.innerHTML = '❤️';
+                h.style.left = Math.random() * 100 + 'vw';
+                h.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                h.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 5000);
+            }, 100);
+        }
+    </script>
+</body>
+</html>
